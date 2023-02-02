@@ -1,16 +1,22 @@
-const express=require('express')
-const { createApi }=require ('unsplash-js');
-const cors=require('cors')
-require('dotenv/config')
+import express from 'express'
+import { createApi } from 'unsplash-js';
+import  cors from 'cors'
+import fetch from 'node-fetch';
+global.fetch = fetch;
+import ('dotenv/config')
+
+
 const app=express()
 
 const unsplash = createApi({
-    accessKey: process.env.APP_ID,
+    accessKey: process.env.APP_ID || "JN9-JAuyD7yY3v0uwMM5hYO1rNT4ZY-CNqtvnpYVJug",
+    fetch:fetch
 });
 app.use(cors())
 app.get('/api/photos',(req,res)=>{
     unsplash.photos.list({page:req.query.start,perPage:req.query.count})
         .then(r =>{
+            console.log(r)
             res.send(r.response)
         })
 } )
